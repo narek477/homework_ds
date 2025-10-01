@@ -1,0 +1,181 @@
+1
+
+#include <iostream>
+
+
+struct ListNode {
+
+    int data;
+    ListNode* next;
+    
+    explicit ListNode(int val): data(val), next(nullptr) {}
+    
+};
+
+void printList(ListNode* head) {
+    while(head != nullptr) {
+        std::cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+int main() {
+    
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    printList(head);
+}
+
+2
+
+#include <iostream>
+
+
+struct ListNode {
+
+    int data;
+    ListNode* next;
+    
+    explicit ListNode(int val): data(val), next(nullptr) {}
+    
+};
+
+size_t listLength(ListNode* head) {
+    size_t count = 0;
+    while(head != nullptr) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+int main() {
+    
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    std::cout << listLength(head);
+}
+
+3
+
+#include <iostream>
+
+
+struct ListNode {
+
+    int data;
+    ListNode* next;
+    
+    explicit ListNode(int val): data(val), next(nullptr) {}
+    
+};
+
+bool findNode(ListNode* head, int value) {
+    while(head != nullptr){
+        if(head->data == value){
+            return true;
+        }
+        head = head->next;
+    }
+    return false;
+}
+
+int main() {
+    
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    std::cout << findNode(head, 3);
+    std::cout << findNode(head, 4);
+}
+
+4
+
+#include <iostream>
+
+struct ListNode {
+    int data;
+    ListNode *next;
+
+    explicit ListNode(int x) : data(x), next(nullptr) {}
+};
+
+void printList(ListNode* head) {
+    while (head != nullptr) {
+        std::cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+ListNode* deleteValue(ListNode* head, int val) {
+
+    while (head != nullptr && head->data == val) {
+        ListNode* tmp = head;
+        head = head->next;
+        delete tmp;
+    }
+
+    ListNode* current = head;
+    while (current->next != nullptr) {
+        if (current->next->data == val) {
+            ListNode* temp = current->next;
+            current->next = current->next->next;
+            delete temp;
+        } else {
+            current = current->next;
+        }
+    }
+    return head;
+
+    if (head == nullptr) {
+        return nullptr;
+    }
+}
+
+
+int main() {
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    printList(deleteValue(head, 2));
+
+}
+
+5
+
+#include <iostream>
+
+struct ListNode {
+    int data;
+    ListNode *next;
+
+    explicit ListNode(int x) : data(x), next(nullptr) {}
+};
+
+void printList(ListNode* head) {
+    while (head != nullptr) {
+        std::cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+
+ListNode* createList() {
+    return nullptr;
+}
+
+template<typename T, typename... Rest>
+ListNode* createList(T first, Rest... rest) {
+    ListNode* head = new ListNode(first);
+    head->next = createList(rest...);
+    return head;
+}
+
+
+int main() {
+   
+    ListNode* head2 = createList(1, 2, 3, 4, 5);
+    printList(head2);
+}
