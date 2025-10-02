@@ -179,3 +179,101 @@ int main() {
     ListNode* head2 = createList(1, 2, 3, 4, 5);
     printList(head2);
 }
+
+6
+
+
+int binaryToDecimal(ListNode* head) {
+    int dec = 0;
+    while (head != nullptr) {
+        dec = dec * 2 + head->data;
+        head = head->next;
+    }
+    return dec;
+}
+
+Hard ones
+
+1
+
+#include <iostream>
+
+struct ListNode {
+    int data;
+    ListNode *next;
+
+    explicit ListNode(int x) : data(x), next(nullptr) {}
+};
+
+void printList(ListNode* head) {
+    while (head != nullptr) {
+        std::cout << head->data << " ";
+        head = head->next;
+    }
+    std::cout << std::endl;
+}
+
+
+int binaryToDecimal(ListNode* head) {
+    int dec = 0;
+    while (head != nullptr) {
+        dec = dec * 2 + head->data;
+        head = head->next;
+    }
+    return dec;
+}
+
+ListNode* createList() {
+    return nullptr;
+}
+
+template<typename T, typename... Rest>
+ListNode* createList(T first, Rest... rest) {
+    ListNode* head = new ListNode(first);
+    head->next = createList(rest...);
+    return head;
+}
+
+ListNode* findMiddle(ListNode* head) {
+    int count = 0;
+    ListNode* tmp = head;
+    while (tmp != nullptr) {
+        count++;
+        tmp = tmp->next;
+    }
+    int index = (count / 2);
+    while (index != 0 && head != nullptr) {
+        head = head->next;
+        index--;
+    }
+    return head;
+}
+
+int main() {
+
+    ListNode* head = createList(1, 2, 3, 4, 5);
+    ListNode* head2 = createList(1, 2, 3, 4, 5, 6);
+    printList(head);
+    printList(findMiddle(head));
+    printList(findMiddle(head2));
+} 
+
+2
+
+bool hasCycle(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+        return false;
+    }
+    ListNode* tmp1 = head;
+    ListNode* tmp2 = head;
+    while (tmp2 != nullptr && tmp2->next != nullptr) {
+        tmp1 = tmp1->next;
+        tmp2 = tmp2->next->next;
+        if (tmp1 == tmp2) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
