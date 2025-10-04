@@ -1,0 +1,86 @@
+1
+
+void createAndFillList(int n) {
+    std::forward_list<int> lst;
+    for (int i = 1; i <= n; i++) {
+        lst.push_front(i);
+    }
+    for (int x : lst) {
+        std::cout << x << ' ';
+    }
+}
+
+2
+
+bool insertAfterPosition(std::forward_list<int>& list, int position, int value) {
+    std::forward_list<int>::iterator it = list.begin();
+    for (int i = 0; i < position; i++) {
+        it++;
+        if (it == list.end()) {
+            return false;
+        }
+    }
+    list.insert_after(it, value);
+    return true;
+}
+
+3
+
+int removeAllOccurences(std::forward_list<int>& lst, const int value) {
+    std::forward_list<int>::iterator it1 = lst.before_begin();
+    std::forward_list<int>::iterator it2 = lst.begin();
+    int count = 0;
+    while (it2 != lst.end()) {
+        if (*it2 == value) {
+            it2 = lst.erase_after(it1);
+            count++;
+        } else {
+            it1 = it2;
+            ++it2;
+        }
+    }
+    return count;
+}
+
+4
+
+void mergeSortedLists(std::forward_list<int>& l1, std::forward_list<int>& l2) {
+    auto it1 = l1.before_begin();
+    auto curr = l1.begin();
+    auto it2 = l2.begin();
+
+    while (curr != l1.end() && it2 != l2.end()) {
+        if (*curr > *it2) {
+            l1.insert_after(it1, *it2);
+            ++it2;
+        } else {
+            ++curr;
+        }
+        ++it1;
+    }
+
+    while (it2 != l2.end()) {
+        l1.insert_after(it1, *it2);
+        ++it1;
+        ++it2;
+    }
+    l2.clear();
+}
+
+5
+
+void moveElementsToFront(std::forward_list<int>& list, int value) {
+    auto prev = list.before_begin();
+    auto curr = list.begin();
+
+    while (curr != list.end()) {
+        if (*curr == value) {
+            int val = *curr;
+            curr = list.erase_after(prev);
+            list.insert_after(list.before_begin(), val);
+        } else {
+            prev = curr;
+            ++curr;
+        }
+    }
+}
