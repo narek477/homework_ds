@@ -84,3 +84,122 @@ void moveElementsToFront(std::forward_list<int>& list, int value) {
         }
     }
 }
+
+6
+
+int removeIf(std::forward_list<int>& lst, Func func) {
+    int count = 0;
+    auto it = lst.begin();
+    while (it != lst.end()) {
+        if (func(*it)) {
+            count++;
+        }
+        ++it;
+    }
+    lst.remove_if(func);
+    return count;
+}
+
+7
+
+#include <iostream>
+#include <forward_list>
+#include <math.h>
+
+
+
+class Polynomial {
+private:
+    std::forward_list<std::pair<int, double>> elems;
+
+public:
+    Polynomial() {}
+
+    Polynomial(const Polynomial& polynomial) {
+        elems = polynomial.elems;
+    }
+
+    void addTerm(int degree, double coef) {
+        if (coef == 0) {
+            return;;
+        }
+
+        if (elems.empty()) {
+            elems.push_front(std::make_pair(degree, coef));
+            return;
+        }
+
+        auto prev = elems.before_begin();
+        auto cur = elems.begin();
+        while (cur != elems.end() && cur->first > degree) {
+            prev = cur;
+            cur++;
+        }
+        elems.insert_after(prev, std::make_pair(degree, coef));
+    }
+
+    double evaluate(double x) {
+        double result = 0;
+        auto it = elems.begin();
+        while (it != elems.end()) {
+            result += (*it).second * std::pow(x, (*it).first);
+            it++;
+        }
+        return result;
+    }
+
+    Polynomial derivative() {
+        Polynomial derivative;
+        for (auto it = elems.begin(); it != elems.end(); it++) {
+            if (it->first > 0) {
+                derivative.addTerm(it->first - 1,it-> first * it->second);
+            }
+        }
+        return derivative;
+    }
+
+    void print() {
+        bool first = true;
+        for (auto it = elems.begin(); it != elems.end(); ++it) {
+            if (!first) {
+                if (it->second >= 0) {
+                    std::cout << " + ";
+                } else {
+                    std::cout << " - ";
+                }
+                std::cout << std::abs(it->second);
+            } else {
+                std::cout << it->second;
+            }
+
+            if (it->first > 0) {
+                std::cout << "x";
+                if (it->first > 1) {
+                    std::cout << "^" << it->first;
+                }
+            }
+            first = false;
+        }
+        std::cout << std::endl;
+    }
+
+};
+
+
+int main() {
+    Polynomial p;
+    p.addTerm(2, 3.0);  // 3x²
+    p.addTerm(0, 5.0);  // +5
+    p.addTerm(1, -2.0); // -2x
+    p.print(); // "3x² - 2x + 5"
+    double result = p.evaluate(2.0); // 3*4 - 2*2 + 5 = 13
+    std::cout << result << std::endl;
+    Polynomial dp = p.derivative(); // 6x - 2
+    dp.print();
+}
+
+8
+
+
+
+
