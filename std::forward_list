@@ -197,9 +197,3 @@ int main() {
     Polynomial dp = p.derivative(); // 6x - 2
     dp.print();
 }
-
-8
-
-
-
-
