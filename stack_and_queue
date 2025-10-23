@@ -34,3 +34,48 @@ bool isBalanced(const std::string& s) {
 
 2
 
+double evaluateRPN(const std::vector<std::string>& vec) {
+    std::stack<double> stack;
+
+    for (int i = 0; i < vec.size(); i++) {
+        std::string t = vec[i];
+
+        if (t == "+") {
+            double a = stack.top();
+            stack.pop();
+            double b = stack.top();
+            stack.pop();
+            stack.push(a + b);
+        }
+        else if (t == "-") {
+            double a = stack.top();
+            stack.pop();
+            double b = stack.top();
+            stack.pop();
+            stack.push(a - b);
+        }
+        else if (t == "*") {
+            double a = stack.top();
+            stack.pop();
+            double b = stack.top();
+            stack.pop();
+            stack.push(a * b);
+        }
+        else if (t == "/") {
+            double a = stack.top();
+            stack.pop();
+            double b = stack.top();
+            stack.pop();
+            stack.push(a / b);
+        }
+        else {
+            double num = std::stod(t);
+            stack.push(num);
+        }
+    }
+    return stack.top();
+}
+
+3
+
+
