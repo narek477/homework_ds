@@ -1,3 +1,4 @@
+stack
 1
 
 bool isBalanced(const std::string& s) {
@@ -78,4 +79,83 @@ double evaluateRPN(const std::vector<std::string>& vec) {
 
 3
 
+void reverseString(std::string& s) {
+    std::stack<char> st;
+    for (int i = 0; i < s.length(); i++) {
+        st.push(s[i]);
+    }
 
+    for (int i = 0; i < s.length(); i++) {
+        s[i] = st.top();
+        st.pop();
+    }
+
+}
+
+
+queue
+
+1
+
+std::string hotPotato(std::vector<std::string>& players, int k) {
+    std::queue<std::string> q;
+    for (int i = 0; i < players.size(); i++) {
+        q.push(players[i]);
+    }
+    
+    for (int i = 0; i < k; i++) {
+        std::string s = q.front();
+        q.pop();
+        q.push(s);
+    }
+    q.pop();
+    return q.front();
+}
+
+2
+
+std::vector<std::string> generateBinaryNumbers(int n) {
+    std::vector<std::string> result;
+    std::queue<std::string> q;
+    if (n < 0) {
+        return result;
+    }
+
+    q.push("1");
+    for (int i = 0; i < n; i++) {
+        std::string number = q.front();
+        q.pop();
+        result.push_back(number);
+
+        q.push(number + "0");
+        q.push(number + "1");
+    }
+    return result;
+
+}
+
+3
+
+int timeRequiredToBuy(std::vector<int>& tickets, int k) {
+    std::queue<std::pair<int, int>> q;
+    int seconds = 0;
+
+    for (int i = 0; i < tickets.size(); i++) {
+        q.push(std::make_pair(i, tickets[i]));
+    }
+
+    while (true) {
+        auto p = q.front();
+        q.pop();
+        p.second--;
+        seconds++;
+
+        if (p.second > 0) {
+            q.push(p);
+        }
+
+        if (p.first == k && p.second == 0) {
+            return seconds;
+        }
+    }
+}
