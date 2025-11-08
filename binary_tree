@@ -24,3 +24,174 @@ int countLeaves(TreeNode* root) {
     }
     return countLeaves(root->left) + countLeaves(root->right);
 }
+
+4
+
+void preorder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    std::cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void inorder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    inorder(root->left);
+    std::cout << root->data << " ";
+    inorder(root->right);
+}
+
+void postorder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    std::cout << root->data << " ";
+}
+
+5
+
+void levelOrder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    std::queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        TreeNode* node = q.front();
+        q.pop();
+        std::cout << node->data << " ";
+        if (node->left != nullptr) {
+            q.push(node->left);
+        }
+        if (node->right != nullptr) {
+            q.push(node->right);
+        }
+    }
+
+}
+
+6
+
+int sumNodes(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    
+    int sum = 0;
+    std::queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        TreeNode* node = q.front();
+        q.pop();
+        sum += node->data;
+        if (node->left != nullptr) {
+            q.push(node->left);
+        }   
+        if (node->right != nullptr) {
+            q.push(node->right);
+        }
+    }
+    return sum;
+}
+
+7
+
+int findMin(TreeNode* root) {
+    if(root == nullptr) {
+        throw std::invalid_argument("No root");
+    }
+    
+    int min = root->data;
+    std::queue<TreeNode*> q;
+    q.push(root);
+    
+    while(!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        
+        min = std::min(min, curr->data);
+        if(curr->left != nullptr) {
+            q.push(curr->left);
+        }
+        if(curr->right != nullptr) {
+            q.push(curr->right);
+        }
+    }
+    return min;
+}
+
+int findMax(TreeNode* root) {
+    if(root == nullptr) {
+        throw std::invalid_argument("No root");
+    }
+    
+    int max = root->data;
+    std::queue<TreeNode*> q;
+    q.push(root);
+    
+    while(!q.empty()) {
+        TreeNode* curr = q.front();
+        q.pop();
+        
+        max = std::max(max, curr->data);
+        if(curr->left != nullptr) {
+            q.push(curr->left);
+        }
+        if(curr->right != nullptr) {
+            q.push(curr->right);
+        }
+    }
+    return max;
+    
+}
+
+8
+
+bool areIdentical(TreeNode* root1, TreeNode* root2) {
+    if(root1 == nullptr && root2 == nullptr) {
+        return true;
+    }
+    
+    if(root1 == nullptr || root2 == nullptr) {
+        return false;
+    }
+    
+   
+    return (root1->data == root2->data) && areIdentical(root1->left, root2->left) 
+            && areIdentical(root1->right, root2->right);
+}
+
+9
+
+int  countNodesAtDepth(TreeNode* root, int k) {
+    if(root == nullptr) {
+        return 0;
+    }
+    
+    if(k == 1) {
+        return 1;
+    }
+    
+    return countNodesAtDepth(root->left, k - 1) + countNodesAtDepth(root->right, k - 1);
+}
+
+10
+
+void mirrorTree(TreeNode* root) {
+    if(root == nullptr) {
+        return;
+    }
+    
+    std::swap(root->left, root->right);
+    
+    mirrorTree(root->left);
+    mirrorTree(root->right);
+}
+
