@@ -1,0 +1,74 @@
+1
+
+std::vector<int> removeDuplicates(const std::vector<int>& nums) {
+    std::set<int> set;
+    std::vector<int> result;
+
+    for (int i = 0; i < nums.size(); i++) {
+        set.insert(nums[i]);
+    }
+
+    for (auto it = set.begin(); it != set.end(); it++) {
+        result.push_back(*it);
+    }
+    return result;
+}
+
+2
+
+std::vector<int> findIntersection(const std::vector<int>& v1,const std::vector<int>& v2) {
+    std::vector<int> result;
+    std::set<int> set(v1.begin(),v1.end());
+
+    for (int i = 0; i < v2.size(); i++) {
+        if (set.count(v2[i])) {
+            result.push_back(v2[i]);
+        }
+    }
+    return result;
+}
+
+3
+
+bool isSubset(const std::vector<int>& subset, const std::vector<int>& superset) {
+    if (subset.size() > superset.size()) {
+        return false;
+    }
+    std::set<int> set(superset.begin(), superset.end());
+
+    for (int i = 0; i < subset.size(); i++) {
+        if (!set.count(subset[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+4
+
+std::vector<int> findMissingNumbers(std::vector<int> nums, int n) {
+    std::vector<int> result;
+    std::set<int> set(nums.begin(), nums.end());
+
+    for (int i = 1; i <= n; i++) {
+        if (set.count(i) == 0) {
+            result.push_back(i);
+        }
+    }
+    return result;
+}
+
+5
+
+int findClosest(const std::set<int>& set, int value) {
+    if (set.empty()) {
+        return -1;
+    }
+    auto it = set.lower_bound(value);
+
+    auto prev = std::prev(it);
+    if (std::abs(*prev - value) <= std::abs(*it - value)) {
+        return *prev;
+    }
+    return *it;
+}
