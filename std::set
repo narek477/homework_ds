@@ -72,3 +72,78 @@ int findClosest(const std::set<int>& set, int value) {
     }
     return *it;
 }
+
+6
+
+int rangeCount(const std::set<int>& set, int low, int high) {
+    auto lower = set.lower_bound(low);
+    auto upper = set.upper_bound(high);
+    int count = 0;
+
+    for (auto it = lower; it != upper; it++) {
+        count++;
+    }
+    return count;
+}
+
+7
+
+std::vector<int> symmetricDifference(const std::vector<int>& v1, const std::vector<int>& v2) {
+    std::vector<int> result;
+    std::set<int> set1(v1.begin(),v1.end());
+    std::set<int> set2(v2.begin(), v2.end());
+
+    for (int num : set1) {
+        if (set2.count(num) == 0) {
+            result.push_back(num);
+        }
+    }
+
+    for (int num : set2) {
+        if (set1.count(num) == 0) {
+            result.push_back(num);
+        }
+    }
+    return result;
+}
+
+8
+
+
+int firstRepeating(const std::vector<int>& v) {
+    std::set<int> set;
+
+    for (int i = 0; i < v.size(); i++) {
+        if (set.count(v[i])) {
+            return v[i];
+        }
+        set.insert(v[i]);
+    }
+    return -1;
+}
+
+9
+
+
+int removeRange(std::set<int>& set, int low, int high) {
+    int old_size = set.size();
+    auto it1 = set.lower_bound(low);
+    auto it2 = set.upper_bound(high);
+
+    set.erase(it1, it2);
+    return old_size - set.size();
+}
+
+10
+
+bool hasAllCodes(const std::string& str, int k) {
+    if (str.length() < k) {
+        return false;
+    }
+
+    std::set<std::string> set_substr;
+    for (int i = 0; i <= str.length() - k; i++) {
+        set_substr.insert(str.substr(i, k));
+    }
+    return set_substr.size() == (1 << k);
+}
