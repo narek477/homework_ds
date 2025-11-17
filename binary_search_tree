@@ -1,0 +1,166 @@
+1
+
+TreeNode* insert(TreeNode* root, int data) {
+    if (root == nullptr) {
+        return new TreeNode(data);
+    }
+    if (data < root->data) {
+        root->left = insert(root->left, data);
+    }
+    else if (data > root->data) {
+        root->right = insert(root->right, data);
+    }
+    return root;
+}
+
+2
+
+bool search(TreeNode *root, int key) {
+    if (root == nullptr) {
+        return false;
+    }
+    if (root->data == key) {
+        return true;
+    }
+    if (root->data > key) {
+        return search(root->left, key);
+    }
+    return search(root->right, key);
+}
+
+3
+
+int findMinBST(TreeNode *root) {
+    if (root == nullptr) {
+        return INT_MIN;
+    }
+    if (root->left == nullptr) {
+        return root->data;
+    }
+    while (root->left != nullptr) {
+        root = root->left;
+    }
+    return root->data;
+}
+
+int findMaxBST(TreeNode* root) {
+    if (root == nullptr) {
+        return INT_MAX;
+    }
+    if (root->right == nullptr) {
+        return root->data;
+    }
+    while (root->right != nullptr) {
+        root = root->right;
+    }
+    return root->data;
+}
+
+4
+
+bool isValidBST(TreeNode* root) {
+    if (root == nullptr) {
+        return true;
+    }
+
+    std::stack<TreeNode*> st;
+    TreeNode* curr = root;
+    TreeNode* prev = nullptr;
+    while (curr != nullptr || !(st.empty())) {
+        while (curr != nullptr) {
+            st.push(curr);
+            curr = curr->left;
+        }
+
+        curr = st.top();
+        st.pop();
+
+        if (prev != nullptr && curr->data <= prev->data) {
+            return false;
+        }
+        prev = curr;
+        curr = curr->right;
+    }
+    return true;
+}
+
+
+5
+
+int kthSmallest(TreeNode *root, int k) {
+    std::stack<TreeNode *> st;
+    TreeNode* curr = root;
+    int count = 0;
+
+    while (curr != nullptr || !st.empty()) {
+        while (curr != nullptr) {
+            st.push(curr);
+            curr = curr->left;
+        }
+
+        curr = st.top();
+        st.pop();
+        count++;
+
+        if (count == k) {
+            return curr->data;
+        }
+
+        curr = curr->right;
+    }
+    return INT_MIN;
+}
+
+6
+
+TreeNode* sortedArrayToBST(const std::vector<int>& nums) {
+    if (nums.empty()) {
+        return nullptr;
+    }
+    int n = nums.size() / 2;
+    TreeNode *root = new TreeNode(nums[n]);
+
+    std::vector<int> leftVec(nums.begin(), nums.begin() + n);
+    std::vector<int> rightVec(nums.begin() + n + 1, nums.end());
+
+    root->left = sortedArrayToBST(leftVec);
+    root->right = sortedArrayToBST(rightVec);
+    return root;
+}
+
+7
+
+TreeNode* deleteNode(TreeNode* root, int key) {
+    if (root == nullptr) {
+        return nullptr;
+    }
+
+    if (key < root->data) {
+        root->left = deleteNode(root->left, key);
+    } else if (key > root->data) {
+        root->right = deleteNode(root->right, key);
+    } else {
+        if (root->left == nullptr && root->right == nullptr) {
+            delete root;
+            return nullptr;
+        }
+        else if (root->left == nullptr) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+        else {
+            TreeNode* tmp = root->right;
+            while (tmp->left != nullptr) {
+                tmp = tmp->left;
+            }
+            root->data = tmp->data;
+            root->right = deleteNode(root->right, root->data);
+        }
+    }
+    return root;
+}
