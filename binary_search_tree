@@ -164,3 +164,35 @@ TreeNode* deleteNode(TreeNode* root, int key) {
     }
     return root;
 }
+
+8
+
+int countInRange(TreeNode* root, int low, int high) {
+    if (root == nullptr) {
+        return 0;
+    }
+    if (root->data < low) {
+        return countInRange(root->right, low, high);
+    }
+    else if (root->data > high) {
+        return countInRange(root->left, low, high);
+    }
+    else {
+        return 1 + countInRange(root->left, low, high) + countInRange(root->right, low, high);
+    }
+}
+
+9
+
+
+bool hasPathSum(TreeNode* root, int sum) {
+    if (root == nullptr) {
+        return false;
+    }
+
+    if (root->left == nullptr && root->right == nullptr) {
+        return sum == root->data;
+    }
+    int remaining = sum - root->data;
+    return hasPathSum(root->left, remaining) || hasPathSum(root->right, remaining);
+}
