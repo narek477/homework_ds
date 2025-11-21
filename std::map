@@ -54,3 +54,23 @@ int firstUniqueChar(const std::string& s) {
     }
     return -1;
 }
+
+
+5
+
+std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& vec) {
+    std::vector<std::string> tmp = vec;
+    for (auto& el : vec) {
+        std::sort(el.begin(), el.end());
+    }
+    std::map<std::string, std::vector<std::string>> map;
+    for (int i = 0; i < vec.size(); i++) {
+        map[vec[i]].push_back(tmp[i]);
+    }
+
+    std::vector<std::vector<std::string>> res;
+    for (auto& el : map) {
+        res.push_back(el.second);
+    }
+    return res;
+}
