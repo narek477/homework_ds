@@ -1,0 +1,56 @@
+1
+
+std::map<int, int> countFrequency(const std::vector<int>& vec) {
+    std::map<int, int> map;
+    for (int i = 0; i < vec.size(); i++) {
+        int num = vec[i];
+        map[num]++;
+    }
+    return map;
+}
+
+2
+
+std::map<char, std::vector<std::string>> groupByFirstChar(const std::vector<std::string>& vec) {
+    std::map<char, std::vector<std::string>> result;
+    for (int i = 0; i < vec.size(); i++) {
+        const std::string& str = vec[i];
+        if (!str.empty()) {
+            char ch = str[0];
+            result[ch].push_back(str);
+        }
+    }
+    return result;
+}
+
+3
+
+std::map<std::string, int> mergeMaps(const std::map<std::string, int>& m1,
+                                    const std::map<std::string, int>& m2) {
+    std::map<std::string, int> result;
+    for (auto it = m1.begin(); it != m1.end(); it++) {
+        result[it->first] = it->second;
+    }
+
+    for (auto it = m2.begin(); it != m2.end(); it++) {
+        result[it->first] += it->second;
+    }
+    return result;
+}
+
+4
+
+int firstUniqueChar(const std::string& s) {
+    std::map<char, int> count;
+
+    for (int  i = 0; i < s.length(); i++) {
+        count[s[i]]++;
+    }
+
+    for (int i = 0; i < s.length(); i++) {
+        if (count[s[i]] == 1) {
+            return i;
+        }
+    }
+    return -1;
+}
