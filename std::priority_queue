@@ -65,3 +65,57 @@ std::vector<int> mergeKSortedLists(const std::vector<std::vector<int>>& vec) {
     }
     return result;
 }
+
+4
+
+class MedianFinder {
+
+private:
+    std::priority_queue<int> pq1;
+    std::priority_queue<int, std::vector<int>, std::greater<int> > pq2;
+
+public:
+    MedianFinder() {}
+
+    void addNum(int num) {
+        pq1.push(num);
+
+        pq2.push(pq1.top());
+        pq1.pop();
+
+        if (pq1.size() < pq2.size()) {
+            pq1.push(pq2.top());
+            pq2.pop();
+        }
+    }
+
+    double findMedian() {
+        if (pq1.size() > pq2.size()) {
+            return static_cast<double>(pq1.top());
+        } else {
+            return (static_cast<double>(pq1.top() + pq2.top())) / 2;
+        }
+    }
+};
+
+5
+
+std::vector<Point> kClosest(const std::vector<Point>& points, int k) {
+
+    std::priority_queue<Point> pq;
+    for (const Point& point : points) {
+        if (pq.size() < k) {
+            pq.push(point);
+        } else if (point.distance() < pq.top().distance()) {
+            pq.pop();
+            pq.push(point);
+        }
+    }
+
+    std::vector<Point> result;
+    while (!pq.empty()) {
+        result.push_back(pq.top());
+        pq.pop();
+    }
+    return result;
+}
