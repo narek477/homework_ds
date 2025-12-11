@@ -47,3 +47,21 @@ int kthSmallest(const std::vector<int>& nums, int k) {
     }
     return pq.top();
 }
+
+3
+
+std::vector<int> mergeKSortedLists(const std::vector<std::vector<int>>& vec) {
+    std::vector<int> result;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> pq;
+
+    for (int i = 0; i < vec.size(); i++) {
+        for (int j = 0; j < vec[i].size(); j++) {
+            pq.push(vec[i][j]);
+        }
+    }
+    while (!pq.empty()) {
+        result.push_back(pq.top());
+        pq.pop();
+    }
+    return result;
+}
